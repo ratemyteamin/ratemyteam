@@ -11,11 +11,10 @@ import (
 
 
 func InitConfig(path string){
-
 	if path != ""{
 		viper.SetConfigFile(path)
 	} else{
-		path = "/tmp/ltas.yaml"
+		path = "/tmp/rmt.yaml"
 		log.Printf("Path is not provides, we will use default %s", path)
 
 	}
