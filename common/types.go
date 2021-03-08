@@ -12,6 +12,7 @@ const (
 	Active Status = "Active"
 	Unverified  Status = "Unverified"
 	Disabled Status = "Disabled"
+	Failed Status = "Failed"
 )
 
 type UserDet string
@@ -21,6 +22,12 @@ type User struct{
 	Password UserDet  `json:"password,omitempty"`
 	CompanyName UserDet  `json:"companyName,omitempty"`
 	CreateTimestamp  *time.Time    `json:"createTimestamp,omitempty"`
+}
+
+type CreateUserRequest struct {
+	Email UserDet `json:"email,omitempty"`
+	Password UserDet `json:"password,omitempty"`
+	CompanyName UserDet `json:"companyName,omitempty"`
 }
 type CreateUserResponse struct {
 	Status  Status

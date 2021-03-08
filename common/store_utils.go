@@ -122,3 +122,11 @@ func CreateDbConnection(info *DbInfo2) (*sql.DB, error) {
 	log.Infof("Connected to db: %s", printableConnectString)
 	return db, nil
 }
+
+func IsNotFound(err error) bool {
+	err2, ok := err.(errors.Error)
+	if !ok {
+		return false
+	}
+	return err2.Code() == int32(ErrNotFound)
+}

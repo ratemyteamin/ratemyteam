@@ -65,3 +65,15 @@ func GetLogFromCtx(ctx context.Context) *logrus.Entry {
 	}
 	return entry.(*logrus.Entry)
 }
+func GetLog(c *gin.Context) *logrus.Entry {
+	ctx := GetContext(c)
+	return GetLogFromCtx(ctx)
+}
+
+func GetContextAndLog(c *gin.Context) (context.Context, *logrus.Entry) {
+	ctx := GetContext(c)
+	log := GetLog(c)
+
+	return ctx, log
+}
+
