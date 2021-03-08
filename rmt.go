@@ -1,7 +1,10 @@
 package main
 
-import "fmt"
+import (
+	"github.com/ratemyteam/rmt/api"
+	"github.com/ratemyteam/rmt/common"
+)
 
 func main() {
-	fmt.Println("RMT is Started")
+	api.Run(common.CreateServerContext())
 }

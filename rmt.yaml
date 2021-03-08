@@ -1,0 +1,13 @@
+# DB Configs
+rmt-db-driver: mysql
+rmt-db-port: 3306
+rmt-db-ssl-mode: disable
+rmt-db-host: localhost
+rmt-db-name: rmtuser
+rmt-db-user: root
+rmt-db-password: rmtuser
+rmt-db-ssl-cert: "" # when we use RDS
+rmt-db-snapshot-identifier: ""
+db-connectionmaxlifetime: 300s
+db-maxopenconnections: 20
+db-maxidleconnections: 5

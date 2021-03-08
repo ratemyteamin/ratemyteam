@@ -30,8 +30,17 @@ type CreateUserResponse struct {
 // Server Context
 type ServerContext struct {
 	RMTInfo *DbInfo
-	RMTStore RMTStore
+	RmtStore RMTStore
 }
+
+
+type str string
+
+const (
+	GoContextKey     str = "goContext"
+	LKEY           str = "logEntry"
+	RequestIdKey     str = "requestId"
+)
 
 
 // DB Interfaces and Structs

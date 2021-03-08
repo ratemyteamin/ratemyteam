@@ -35,14 +35,15 @@ var gosqlToJdbcDriverMappings = map[string]string{
 }
 
 func (dbInfo *DbInfo2) GetConnectionString() string {
-	connectionString := fmt.Sprintf("host=%s port=%d dbname=%s user=%s password=%s %s",
-		dbInfo.HostName, dbInfo.Port, dbInfo.DatabaseName, dbInfo.User, dbInfo.Password, dbInfo.Options)
+	connectionString := fmt.Sprintf("%s:rmtuser@tcp(%s:%d)/%s",
+		dbInfo.User, dbInfo.HostName, dbInfo.Port, dbInfo.DatabaseName)
 	return connectionString
 }
 
 func (dbInfo *DbInfo2) GetPrintableConnectionString() string {
-	connectionString := fmt.Sprintf("host=%s port=%d dbname=%s user=%s %s",
-		dbInfo.HostName, dbInfo.Port, dbInfo.DatabaseName, dbInfo.User, dbInfo.Options)
+
+	connectionString := fmt.Sprintf("%s:rmtuser@tcp(%s:%d)/%s",
+		 dbInfo.User, dbInfo.HostName, dbInfo.Port, dbInfo.DatabaseName)
 	return connectionString
 }
 
@@ -103,8 +104,9 @@ func CreateDbConnection(info *DbInfo2) (*sql.DB, error) {
 	maxIdleConns := viper.GetInt(DbMaxIdleConnections)
 
 	dbConnectString := info.GetConnectionString()
-	printableConnectString := info.GetPrintableConnectionString()
 
+	printableConnectString := info.GetPrintableConnectionString()
+	log.Infof("Connceting to Database %s", printableConnectString)
 	db, err := sql.Open(dbInfo.DriverType, dbConnectString)
 	if err != nil {
 		errMsg := fmt.Sprintf("Error connecting to database with %s: %v", printableConnectString, err)

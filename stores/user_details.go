@@ -24,6 +24,18 @@ type RmtUserStore struct {
 	userStore *sync.Mutex
 }
 
+func (rmt *RmtUserStore) GetUserById(id string) (common.User, error) {
+	panic("implement me")
+}
+
+func (rmt *RmtUserStore) GetUserByAccountId(id string) (common.User, error) {
+	panic("implement me")
+}
+
+func (rmt *RmtUserStore) GetUserByEmail(id string) (common.User, error) {
+	panic("implement me")
+}
+
 func (rmt *RmtUserStore) GetUserInTx(tx common.Transaction, id string,  queryColumn string) (common.User, error) {
 	row := tx.QueryRow(fmt.Sprintf("select user_json from ltas_users where %s = $1", queryColumn), id)
 
@@ -79,10 +91,11 @@ func (rmt *RmtUserStore) StoreUser(user *common.User) (bool, error) {
 	return false, nil
 
 }
-
-func NewRmtStore(dbInfo *common.DbInfo2) *RmtUserStore{
+func NewRmtUserStore(dbInfo *common.DbInfo2) *RmtUserStore{
 	db, _ := common.CreateDbConnection(dbInfo)
 	sqlStore, _ := NewSqlStore(db, "")
 	userStore := &sync.Mutex{}
 	return &RmtUserStore{Sql_Store:sqlStore, userStore:userStore}
 }
+
+
