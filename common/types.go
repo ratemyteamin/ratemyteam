@@ -16,12 +16,41 @@ const (
 )
 
 type UserDet string
-type User struct{
-	UserId UserDet `json:"userid,omitempty"`
-	Email UserDet  `json:"email,omitempty"`
-	Password UserDet  `json:"password,omitempty"`
-	CompanyName UserDet  `json:"companyName,omitempty"`
-	CreateTimestamp  *time.Time    `json:"createTimestamp,omitempty"`
+
+type Organisation struct {
+	OrganisationName string `json:"orgName,omitempty"`
+	OrganisationId int64 `json:"ordId,omitempty"`
+}
+
+type Team struct {
+	TeamId int64 `json:"teamId,omitempty"`
+	TeamName UserDet `json:"teamName,omitempty"`
+}
+
+type PostMetadata struct {
+	PostId int64 `json:"postId,omitempty"`
+	User *User
+	Organisation *Organisation
+	Team *Team
+
+}
+
+type Post struct {
+	PostId int64 `json:"postId,omitempty"`
+	Title string
+	PostContent string
+	tags []string
+}
+
+type User struct {
+	UserId              UserDet    `json:"userid,omitempty"`
+	Email               UserDet    `json:"email,omitempty"`
+	Password            UserDet    `json:"password,omitempty"`
+	CreateTimestamp     *time.Time `json:"createTimestamp,omitempty"`
+	Location            string     `json:"location,omitempty"`
+	Status              Status
+	OrganisationDetails Organisation
+	TeamDetails         Team
 }
 
 type CreateUserRequest struct {
@@ -90,8 +119,28 @@ type UserDetailStore interface {
 	GetUserById( id string) (User, error)
 	GetUserByAccountId(id string) (User, error)
 	GetUserByEmail(id string) (User, error)
+	GetUserOrganisation(user *User) (Organisation, error)
+	GetUserTeam(user *User) (Team, error)
+	GetUserTeamAndOrganisation(user *User) (Team, Organisation, error)
+	GetUserPostsMetadata(user *User)([]PostMetadata, error)
+}
+
+type OrganisationStore interface {
+	SqlStore
+	StoreOrganisation(organistation *Organisation) (bool, error)
+	GetTeamsInOrgaisation(organistation *Organisation) ([]Team, error)
+	GetUsersInOrganisation(organistation *Organisation) ([]User, error)
+	GetOrganisationPostsMetadata(organisation *Organisation)([]PostMetadata, error)
+}
+
+type PostStore interface {
+	SqlStore
+	StoreNewPostMetadata(postMetaData *PostMetadata) (bool, error)
 }
 
 type RMTStore interface {
+	SqlStore
 	UserDetailStore
+	OrganisationStore
+	PostStore
 }

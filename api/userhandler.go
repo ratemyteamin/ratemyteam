@@ -45,7 +45,6 @@ func (rmt *RmtContext) StoreUser(c *gin.Context){
 			Email:usercreatereq.Email,
 			UserId: common.UserDet(id),
 			Password: usercreatereq.Password,
-			CompanyName: usercreatereq.CompanyName,
 			CreateTimestamp: &time.Time{},
 		}
 		err = s.CreateNewUser(ctx, tx, &user)
